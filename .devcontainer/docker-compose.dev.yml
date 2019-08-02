@@ -1,0 +1,38 @@
+version: "3.5"
+
+services:
+  development:
+    build: .
+    command: sleep infinity    
+    user: "1000"
+    environment:
+      # allow proper integration of .bashrc
+     - "HOME=$HOME"
+    volumes:
+      # Mount dev home
+      - $HOME/devhome:$HOME
+      # Mount Project
+      - ./../:$HOME/go/src/github.com/metalblueberry/mars-rover-kata
+      # Some global configuration files
+      # share id to allow git integration
+      - $HOME/.ssh:$HOME/.ssh:ro
+      # share terminal configuration
+      - $HOME/.bashrc:$HOME/.bashrc:ro
+      # Include global git configuration
+      - $HOME/.gitconfig:$HOME/.gitconfig:ro
+      # user information
+      - /etc/passwd:/etc/passwd:ro
+      # # allow the persistence of binary tools installed in container
+      # - gopkg:/go/pkg
+    # [Optional] Required for ptrace-based debuggers like C++, Go, and Rust
+    environment:
+      - GOPATH=$HOME/go
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - "8080:8080"
+
+# volumes:
+#   gopkg:  
