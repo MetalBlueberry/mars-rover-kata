@@ -4,16 +4,19 @@ import (
 	"github.com/metalblueberry/go3d/vec2"
 )
 
+// World represents a world with all the positions identified by X and Y with some limits that will be wraped.
 type World interface {
 	Limits() (x int64, y int64)
 	IsBlocked(x int64, y int64) bool
 }
 
+// Vehicle represents a device that can be moved and oriented in the world
 type Vehicle interface {
 	MoveTo(Position vec2.T, Orientation vec2.T)
 	GetPosition() (Position vec2.T, Orientation vec2.T)
 }
 
+// Driver controls the Vehicle in the World
 type Driver struct {
 	World   World
 	Vehicle Vehicle
@@ -81,6 +84,7 @@ func (d Driver) ExecuteSequence(sequence string) (int, bool) {
 	return len(sequence), true
 }
 
+// Return the position from the Vehicle in valid World coordenates
 func (d Driver) Position() (x int64, y int64) {
 	position, _ := d.Vehicle.GetPosition()
 	return getCoords(position)

@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	// TODO: add parameters to actually do something
 	World := world.New(100, 50)
 	Rover := rover.New()
 	Driver := driver.New(vec2.T{0, 0}, driver.East, World, Rover)

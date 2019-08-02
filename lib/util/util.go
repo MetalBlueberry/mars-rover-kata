@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/metalblueberry/mars-rover-kata/lib/world"
 	"github.com/metalblueberry/mars-rover-kata/lib/driver"
+	"github.com/metalblueberry/mars-rover-kata/lib/world"
 )
 
+// DrawWorld writes an ascii representations of the Grid and the Driver to out io.Writer
 func DrawWorld(out io.Writer, Grid *world.Grid, Driver *driver.Driver) {
 
 	maxX, maxY := Grid.Limits()
