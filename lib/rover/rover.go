@@ -9,7 +9,7 @@ type Rover struct {
 	Orientation vec2.T
 }
 
-func NewRover() *Rover {
+func New() *Rover {
 	return &Rover{
 		Position:    vec2.T{},
 		Orientation: vec2.UnitX,

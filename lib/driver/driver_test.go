@@ -1,60 +1,14 @@
 package driver_test
 
 import (
-	"fmt"
-	"io"
-
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-
 	"github.com/metalblueberry/go3d/vec2"
 	"github.com/metalblueberry/mars-rover-kata/lib/driver"
 	"github.com/metalblueberry/mars-rover-kata/lib/rover"
+	"github.com/metalblueberry/mars-rover-kata/lib/util"
 	"github.com/metalblueberry/mars-rover-kata/lib/world"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
-
-func DrawWorld(out io.Writer, Grid *world.Grid, Driver *driver.Driver) {
-
-	maxX, maxY := Grid.Limits()
-
-	fmt.Fprint(out, " +")
-	for x := int64(0); x < maxX; x++ {
-		if x%5 == 0 {
-			fmt.Fprint(out, "v")
-		} else {
-			fmt.Fprint(out, "_")
-		}
-	}
-	fmt.Fprint(out, "+")
-	fmt.Fprint(out, "\n")
-	for y := int64(0); y < maxY; y++ {
-		fmt.Fprint(out, "⎹ ")
-		for x := int64(0); x < maxX; x++ {
-			if i, j := Driver.Position(); x == i && y == j {
-				fmt.Fprint(out, "O")
-				continue
-			}
-			if Grid.IsBlocked(x, y) {
-				fmt.Fprint(out, "X")
-				continue
-			}
-			fmt.Fprint(out, "-")
-		}
-		fmt.Fprint(out, "⎸")
-		fmt.Fprint(out, "\n")
-	}
-	fmt.Fprint(out, " +")
-	for x := int64(0); x < maxX; x++ {
-		if x%5 == 0 {
-			fmt.Fprint(out, "^")
-		} else {
-			fmt.Fprint(out, "‾")
-		}
-	}
-	fmt.Fprint(out, "+")
-	fmt.Fprint(out, "\n")
-
-}
 
 var _ = Describe("Driver", func() {
 	var (
@@ -64,14 +18,14 @@ var _ = Describe("Driver", func() {
 	)
 	BeforeEach(func() {
 		World = world.New(11, 5)
-		Rover = rover.NewRover()
-		Driver = driver.NewDriver(vec2.T{5, 2}, driver.North, World, Rover)
+		Rover = rover.New()
+		Driver = driver.New(vec2.T{5, 2}, driver.North, World, Rover)
 	})
 	JustBeforeEach(func() {
-		DrawWorld(GinkgoWriter, World, Driver)
+		util.DrawWorld(GinkgoWriter, World, Driver)
 	})
 	AfterEach(func() {
-		DrawWorld(GinkgoWriter, World, Driver)
+		util.DrawWorld(GinkgoWriter, World, Driver)
 	})
 	Describe("When parsing sequence", func() {
 

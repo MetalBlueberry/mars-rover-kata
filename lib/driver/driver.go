@@ -19,7 +19,7 @@ type Driver struct {
 	Vehicle Vehicle
 }
 
-func NewDriver(Position vec2.T, Orientation Orientations, World World, Vehicle Vehicle) *Driver {
+func New(Position vec2.T, Orientation Orientations, World World, Vehicle Vehicle) *Driver {
 	Vehicle.MoveTo(Position, Orientation.Vector())
 	return &Driver{
 		World:   World,
